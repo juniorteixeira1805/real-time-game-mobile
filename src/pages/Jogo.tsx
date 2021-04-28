@@ -2,6 +2,7 @@ import React from 'react';
 import { RouteProp } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
 import LottiView from  'lottie-react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 import {Patrocinios} from '../componentes/Patrocinios'
 
@@ -11,7 +12,6 @@ import logoUm from '../assets/guerr.png'
 import logoTreis from '../assets/psg.jpg'
 
 import ball from '../assets/animations/bollsLoading.json'
-import goal from '../assets/animations/goal.json'
 
 import fonts from '../../styles/fonts';
 import { useNavigation } from '@react-navigation/core';
@@ -45,11 +45,11 @@ const eventos = [
     assistance: '',
     club: 'PSG',
     time: '05:56',
-    cardColor: 'Cartão amarelo',
+    cardColor: 'amarelo',
   },
   {
     id: '4',
-    event: 'gol',
+    event: 'GOOOL',
     description: 'Rodolfinho tabela com Luan na intermediária esquerda, bate tirando do golero e acerta o ângulo.',
     player: 'Rodolfinho',
     assistance: 'Luan',
@@ -69,7 +69,7 @@ const eventos = [
   },
   {
     id: '6',
-    event: 'gol',
+    event: 'GOOOL',
     description: 'o número 10 do PSG bate a falta e marca.',
     player: '',
     assistance: '',
@@ -89,7 +89,7 @@ const eventos = [
   },
   {
     id: '8',
-    event: 'gol',
+    event: 'GOOOL',
     description: 'Ivison bate o pênalte no meio e marca.',
     player: 'Ivison',
     assistance: '',
@@ -98,7 +98,7 @@ const eventos = [
     cardColor: '',
   },
   {
-    id: '',
+    id: '9',
     event: 'Fim primeiro',
     description: '',
     player: '',
@@ -182,9 +182,9 @@ export default function Jogo({route}: Props) {
             data={eventos}
             renderItem={({item}) => (
             <View style={styles.evento}>
-              { item.event === 'Inicio primeiro' ? <Text style={styles.eventoText}>⏱ Início da partida</Text> : item.event === 'Fim primeiro' ? <Text style={styles.eventoText}>⏱ Intervalo</Text> : item.event === 'Inicio segundo' ? <Text style={styles.eventoText}>⏱ Início do segundo tempo</Text> : item.event === 'Fim segundo' ? <Text style={styles.eventoText}>⏱ Fim de jogo</Text> : <Text style={styles.eventoText}>⏱ {item.time} {item.event} - {item.player} ({item.club})</Text>}
-              <Text >{item.description}</Text>
-              <Text ></Text>
+              { item.event === 'Inicio primeiro' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Início da partida</Text> : item.event === 'Fim primeiro' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Intervalo</Text> : item.event === 'Inicio segundo' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Início do segundo tempo</Text> : item.event === 'Fim segundo' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Fim de jogo</Text> : <Text style={item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ {`${item.time} |`} {item.event === 'GOOOL' ? `${item.event} ⚽` :  item.event === 'Falta' ? <Text>{item.event} <MaterialCommunityIcons name="whistle" size={20} color="black" /></Text> : item.event} - {item.player} ({item.club})</Text>}
+              <Text style={styles.eventoDescription}>{item.description}</Text>
+              {item.assistance ? <Text style={styles.eventoSecundario}>{`- Assistência de ${item.assistance} 🤵🏽`}</Text> : item.cardColor ? <Text>{`Cartão ${item.cardColor} para ${item.player}`}</Text> : undefined}
             </View>)}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
@@ -206,7 +206,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: '100%',
-    marginTop: 20
   },
   headerText: {
     opacity: 0.9,
@@ -229,7 +228,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placarText: {
-    fontSize: 36,
+    fontSize: 32,
     fontFamily: fonts.heading
   },
   animation: {
@@ -282,8 +281,31 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     justifyContent: 'center'
   },
-  eventoText: {
+  eventoTitle: {
     fontSize: 18,
     fontFamily: fonts.heading,
+    color: colors.gold_light,
+    fontWeight: 'bold'
+  },
+  eventoTitleNeutro: {
+    fontSize: 18,
+    fontFamily: fonts.heading,
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  eventoTitleAdversari: {
+    fontSize: 18,
+    fontFamily: fonts.heading,
+    color: colors.red,
+    fontWeight: 'bold'
+  },
+  eventoDescription:{
+    fontSize: 16,
+    fontFamily: fonts.text,
+  },
+  eventoSecundario: {
+    opacity: 0.9,
+    fontSize: 16,
+    fontFamily: fonts.complement,
   }
 });
