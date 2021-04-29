@@ -1,125 +1,105 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
+import LottiView from  'lottie-react-native'
 
 import {Patrocinios} from '../componentes/Patrocinios'
 
 import colors from '../../styles/colors';
-
-import logoUm from '../assets/guerr.png'
-import logoDois from '../assets/vnec.jpg'
-import logoTreis from '../assets/psg.jpg'
+import api from '../services/api'
 
 import { useNavigation } from '@react-navigation/core';
 import fonts from '../../styles/fonts';
 
+import ball from '../assets/animations/bollsLoading.json'
 
 export default function Jogos() {
+  const [jogos, setJogos] = useState(Object)
 
   const navigation = useNavigation()
 
-  function handleStart(){
-      navigation.navigate('Jogo', {gamerId: "5d4sa654d65sa4"})
-  }
-  /*
   useEffect(() => {
-    api.get("")
-    .then((response) => setGamers(response.data))
-    .catch((err) => {
-      console.error("ops! ocorreu um erro" + err);
-   });  }, [])
-*/
+    try {
+      async function getGamers(){
+        const response = await api.get("jogos")
+        setJogos(response.data)
+      }
+      getGamers()
+    } catch (error) {
+      console.log(error)
+    }
+  }, [jogos])
+  
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Patrocinios/>
-      <TouchableOpacity style={styles.card} onPress={handleStart}>
-        <View style={styles.gameInfo}>
-          <Text style={styles.gameInfoTitle}>⚽ AMISTOSO</Text>
-          <Text style={styles.gameInfoSubtitle}>Sábado 01/05</Text>
-        </View>
-
-        <View style={styles.content}>
-          <View>
-            <View style={styles.clubs}>
-              <Image
-                source={logoUm}
-                style={styles.image}
-              />
-              <Text style={styles.subTitle}>Guerreiros</Text>
+      <FlatList
+        style={styles.list}
+        inverted
+        data={jogos}
+        renderItem={({item}) => (
+          <TouchableOpacity  style={styles.button} onPress={(item) => {
+            alert(item)
+          }}>
+            <View style={styles.gameInfo}>
+              {item.tipo === 'Amistoso' ? <Text style={styles.gameInfoTitle}>⚽ {item.tipo}</Text> : <Text style={styles.gameInfoTitle}><Image source={{uri: `https://guerreiros.herokuapp.com/logoTorneios/${item.tipo}.png`}} style={styles.image}/> {item.tipo}</Text> }
+              <Text style={styles.gameInfoSubtitle}>{item.dateGamer} - {item.hourGame}</Text>
             </View>
 
-            <View style={styles.clubs}>
-              <Image
-                source={logoDois}
-                style={styles.image}
-              />
-              <Text style={styles.subTitle}>Vila Nova Esporte Clube</Text>
+            <View style={styles.content}>
+              <View>
+                <View style={styles.clubs}>
+                  <Image
+                    source={{uri: 'https://guerreiros.herokuapp.com/LogoClubs/guerreiros.png'}}
+                    style={styles.image}
+                  />
+                  <Text style={styles.title}>Guerreiros</Text>
+                </View>
+    
+                <View style={styles.clubs}>
+                  <Image
+                    source={{uri: item.adversary.avatar}}
+                    style={styles.image}
+                  />
+                  <Text style={styles.title}>{item.adversary.name}</Text>
+                </View>
+              </View>
+    
+              <View style={{justifyContent:"center", alignItems: 'center'}}>
+                {item.status === "Marcado" ? <Text style={styles.subtitle}>{item.local}</Text> : item.status === "Primeiro" ? <Text style={styles.subtitle}>Primeiro tempo<LottiView source={ball} autoPlay loop style={styles.animation}/></Text> : item.status === "Intervalo" ? <Text style={styles.subtitle}>Intervalo '</Text> : item.status === "Segundo" ? <Text style={styles.subtitle}>Segundo tempo<LottiView source={ball} autoPlay loop style={styles.animation}/></Text> : <Text style={styles.subtitle}>Jogo finalizado</Text>}
+              </View>
             </View>
-          </View>
-
-          <View style={{justifyContent:"center", alignItems: 'center'}}>
-            <Text style={styles.gameInfoSubtitle}>17:00{'\n'}Arena soccer</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      <View style={styles.card}>
-        <View style={styles.gameInfo}>
-          <Text style={styles.gameInfoTitle}>⚽ AMISTOSO</Text>
-          <Text style={styles.gameInfoSubtitle}>Sábado 08/05</Text>
-        </View>
-
-        <View style={styles.content}>
-          <View>
-            <View style={styles.clubs}>
-              <Image
-                source={logoUm}
-                style={styles.image}
-              />
-              <Text style={styles.subTitle}>Guerreiros</Text>
-            </View>
-
-            <View style={styles.clubs}>
-              <Image
-                source={logoTreis}
-                style={styles.image}
-                resizeMode='contain'
-              />
-              <Text style={styles.subTitle}>PSG</Text>
-            </View>
-          </View>
-
-          <View style={{justifyContent:"center", alignItems: 'center'}}>
-            <Text style={styles.gameInfoSubtitle}>17:00{'\n'}Arena soccer</Text>
-          </View>
-        </View>
-      </View>
-    </View>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item._id.toString()}
+        showsVerticalScrollIndicator={false}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginTop: 50
   },
-  card: {
+  list: {
+    flex: 1,
+    width: '100%',
+  },
+  button: {
+    flex: 1,
     width: '100%',
     backgroundColor: colors.gold_light,
     padding: 10,
-    borderBottomStartRadius: 10,
-    borderBottomEndRadius: 10,
-    marginBottom: 20
+    borderBottomWidth: 5,
   },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
+
+
   gameInfo: {
-    paddingHorizontal: 20,
     paddingBottom: 4,
     width: '100%',
     borderBottomWidth: 1
@@ -135,13 +115,28 @@ const styles = StyleSheet.create({
     fontFamily: fonts.text,
     opacity: 0.5,
   },
-  subTitle: {
+
+
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16,
     fontFamily: fonts.text,
     maxWidth: 175,
     marginLeft: 15
+  },
+  subtitle: {
+    maxWidth: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 14,
+    fontFamily: fonts.complement,
+    opacity: 0.5,
   },
   clubs: {
     flexDirection: 'row',
@@ -154,4 +149,8 @@ const styles = StyleSheet.create({
     width: 30,
     borderRadius: 100
   },
+
+  animation: {
+    height: 25,
+  }
 });
