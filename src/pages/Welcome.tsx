@@ -33,7 +33,7 @@ export function Welcome() {
                     fundado em 2009 por Raniery Kennedi com a finalidade de se divertir com os amigos.
                 </Text>
                 <Text style={style.subtitle}>
-                    Entretando, ao longo do tempo, participou de alguns campeonatos locais como copas agrestes
+                    Entretando, ao longo do tempo, participou de alguns campeonatos locais como, copas agreste
                     e campeonatos municipais. Ganhou algumas taças ao longo desse tempo e, com isso, o time foi, gradativamente,
                     crescendo.
                 </Text>
