@@ -1,33 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, SafeAreaView} from 'react-native';
-import LottiView from  'lottie-react-native'
-
-import {Patrocinios} from '../componentes/Patrocinios'
 
 import colors from '../../styles/colors';
-import api from '../services/api'
-
-import { useNavigation } from '@react-navigation/core';
 import fonts from '../../styles/fonts';
+
+import api from '../services/api'
 
 import ball from '../assets/animations/bollsLoading.json'
 
+import {Patrocinios} from '../componentes/Patrocinios'
+import {Loading} from '../componentes/Loading'
+
+import { useNavigation } from '@react-navigation/core';
+import LottiView from  'lottie-react-native'
+
 export default function Jogos() {
   const [jogos, setJogos] = useState(Object)
+  const [loading , setLoading] = useState(true)
 
   const navigation = useNavigation()
 
-  useEffect(() => {
-    try {
-      async function getGamers(){
-        const response = await api.get("jogos")
-        setJogos(response.data)
-      }
-      getGamers()
-    } catch (error) {
-      console.log(error)
+  useEffect((): void => {
+    async function getGamers(){
+      const response = await api.get("jogos")
+      if(loading) setJogos(response.data)
+      setLoading(false)
     }
-  }, [jogos])
+    getGamers()
+  }, [])
+
+  if(loading) return <Loading/>
   
   return (
     <SafeAreaView style={styles.container}>
@@ -37,9 +39,7 @@ export default function Jogos() {
         inverted
         data={jogos}
         renderItem={({item}) => (
-          <TouchableOpacity  style={styles.button} onPress={(item) => {
-            alert(item)
-          }}>
+          <TouchableOpacity  style={styles.button} onPress={() => navigation.navigate('Jogo',{gamerId: item._id})}>
             <View style={styles.gameInfo}>
               {item.tipo === 'Amistoso' ? <Text style={styles.gameInfoTitle}>⚽ {item.tipo}</Text> : <Text style={styles.gameInfoTitle}><Image source={{uri: `https://guerreiros.herokuapp.com/logoTorneios/${item.tipo}.png`}} style={styles.image}/> {item.tipo}</Text> }
               <Text style={styles.gameInfoSubtitle}>{item.dateGamer} - {item.hourGame}</Text>
