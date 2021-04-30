@@ -29,7 +29,7 @@ export function Welcome() {
                 <Image source={escudo} style={style.image} resizeMode="contain"/>
 
                 <Text style={style.subtitle}>
-                    Guerreiros é um time de futsal da cidade de Nova Cruz, localizada no estado do Rn, 
+                    Guerreiros é um time de futsal da cidade de Nova Cruz, localizada no estado do RN, 
                     que foi fundado em 2009 com a finalidade de diversão entre amigos.
                 </Text>
                 <Text style={style.subtitle}>

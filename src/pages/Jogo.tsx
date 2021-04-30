@@ -144,7 +144,7 @@ export default function Jogo({route}: Props) {
             <Text style={styles.infoSubTitle}>{jogo?.tipo}</Text>
           </View>
         </View>
-        {jogo?.bestOfTheMan === "Indefinido" ? undefined : <Text style={styles.infoTitle}>Melhor do jogo: {jogo?.bestOfTheMan} 👑</Text>}
+        {jogo?.bestOfTheMan === "Indefinido" ? undefined : <Text style={styles.melhorDoJogo}>Melhor do jogo: {jogo?.bestOfTheMan} 👑</Text>}
 
         <View style={styles.events}>
           <FlatList
@@ -253,10 +253,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.complement,
     color: colors.white,
   },
+  melhorDoJogo: {
+    opacity: 0.8,
+    fontSize: 14,
+    fontFamily: fonts.complement,
+    color: colors.white,
+
+  },
 
   events: {
     flex: 1,
-    backgroundColor: '#413d31'
+    backgroundColor: '#413d31',
+    borderTopWidth: 5,
+    borderTopColor: colors.gold
   },
   evento: {
     paddingVertical: 10,
