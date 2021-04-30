@@ -33,9 +33,9 @@ export function Welcome() {
                     fundado em 2009 por Raniery Kennedi com a finalidade de se divertir com os amigos.
                 </Text>
                 <Text style={style.subtitle}>
-                    Entretando, ao longo do tempo, participou de alguns campeonatos locais como, copas agreste
-                    e campeonatos municipais. Ganhou algumas taças ao longo desse tempo e, com isso, o time foi, gradativamente,
-                    crescendo.
+                    Ao longo do tempo, o time participou de alguns campeonatos locais como copas Agrestes e campeonatos municipais, 
+                    conquistando assim algumas taças em sua trajetória. Com isso, os Guerreiros vem crescendo de maneira gradativa 
+                    e torna-se pouco a pouco uma equipe de valor e competitiva.
                 </Text>
 
                 <TouchableOpacity style={style.button} activeOpacity={0.4} onPress={handleStart}>
