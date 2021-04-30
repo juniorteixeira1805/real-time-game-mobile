@@ -26,7 +26,7 @@ type Props = {
 interface Jogo {
     adversary: {
       avatar: any,
-      name: String
+      name: any
     },
     bestOfTheMan: String,
     tipo: String,
@@ -79,10 +79,10 @@ export default function Jogo({route}: Props) {
         const response = await api.get(`jogo/${route.params.gamerId}`)
         setJogo(response.data)
 
-        let golAdver = jogo?.goals.filter((objeto) => objeto.club == jogo.adversary.name)
+        let golAdver = response?.data.goals.filter((objeto: any) => objeto.club == jogo?.adversary.name)
         let quantGolAdver = golAdver?.length
         setGolsAd(quantGolAdver)
-        let gol = jogo?.goals.filter((objeto) => objeto.club == 'Guerreiros')
+        let gol = response?.data.goals.filter((objeto: any) => objeto.club == 'Guerreiros')
         let quantGol = gol?.length
         setGolsGr(quantGol)
 
