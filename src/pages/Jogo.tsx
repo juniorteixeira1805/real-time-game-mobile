@@ -1,114 +1,17 @@
-import React from 'react';
-import { RouteProp } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity, FlatList } from 'react-native';
-import LottiView from  'lottie-react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-
-import {Patrocinios} from '../componentes/Patrocinios'
 
 import colors from '../../styles/colors';
-
-import logoUm from '../assets/guerr.png'
-import logoTreis from '../assets/psg.jpg'
-
-import ball from '../assets/animations/bollsLoading.json'
-
 import fonts from '../../styles/fonts';
+
+import {Patrocinios} from '../componentes/Patrocinios';
+import {Loading} from '../componentes/Loading'
+
+import api from '../services/api';
+
+import { RouteProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/core';
-
-const eventos = [
-  {
-    id: '1',
-    event: 'Inicio primeiro',
-    description: '',
-    player: '',
-    assistance: '',
-    club: '',
-    time: '00:00',
-    cardColor: '',
-  },
-  {
-    id: '2',
-    event: 'Falta',
-    description: 'Ivison recebe no meio campo, tentar sair jogando, mas recebe a falta.',
-    player: 'Jogador adversário',
-    assistance: '',
-    club: 'PSG',
-    time: '02:33',
-    cardColor: '',
-  },
-  {
-    id: '3',
-    event: 'Escanteio',
-    description: 'Jogador do PSG arrisca de longe, mas Raniery espalma e coloca a bola para o escanteio.',
-    player: 'Jogador adversário',
-    assistance: '',
-    club: 'PSG',
-    time: '05:56',
-    cardColor: 'amarelo',
-  },
-  {
-    id: '4',
-    event: 'GOOOL',
-    description: 'Rodolfinho tabela com Luan na intermediária esquerda, bate tirando do golero e acerta o ângulo.',
-    player: 'Rodolfinho',
-    assistance: 'Luan',
-    club: 'Guerreiros',
-    time: '07:08',
-    cardColor: '',
-  },
-  {
-    id: '5',
-    event: 'Falta',
-    description: 'Contrataque do PSG, mas puff faz a falta para impedir a chance de gol',
-    player: 'Puff',
-    assistance: '',
-    club: 'Guerreiros',
-    time: '11:24',
-    cardColor: '',
-  },
-  {
-    id: '6',
-    event: 'GOOOL',
-    description: 'o número 10 do PSG bate a falta e marca.',
-    player: '',
-    assistance: '',
-    club: 'PSG',
-    time: '12:56',
-    cardColor: '',
-  },
-  {
-    id: '7',
-    event: 'Pênalte',
-    description: 'Ivisson recebe na intermediária, corta para dentro, mas o jogador do PSG o derruba',
-    player: '',
-    assistance: '',
-    club: 'PSG',
-    time: '16:33',
-    cardColor: '',
-  },
-  {
-    id: '8',
-    event: 'GOOOL',
-    description: 'Ivison bate o pênalte no meio e marca.',
-    player: 'Ivison',
-    assistance: '',
-    club: 'Guerreiros',
-    time: '18:01',
-    cardColor: '',
-  },
-  {
-    id: '9',
-    event: 'Fim primeiro',
-    description: '',
-    player: '',
-    assistance: '',
-    club: '',
-    time: '',
-    cardColor: '',
-  },
-]
-
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 type RootStackParamList = {
   Jogo: {gamerId: String}
@@ -120,73 +23,145 @@ type Props = {
     route: JogoScreenRouteProp,
 };
 
+interface Jogo {
+    adversary: {
+      avatar: any,
+      name: String
+    },
+    bestOfTheMan: String,
+    tipo: String,
+    status: String,
+    _id: String,
+    date: String,
+    local: String,
+    dateCreater: String,
+    streamer: String,
+    events: [{
+      _id: String,
+      event: String,
+      description: String,
+      player: String,
+      assistance: String,
+      club: String,
+      time: String,
+      cardColor: String,
+    }],
+    goals: [{
+      _id: String,
+      club: String,
+      player: String,
+      assistance: String,
+      time: String,
+    }],
+    cards: [{
+      _id: String,
+      player: String,
+      color: String,
+      time: String,
+    }],
+    dateGamer: String,
+    hourGame: String,
+}
+
 export default function Jogo({route}: Props) {
   const navigation = useNavigation()
+
+  const [loading , setLoading] = useState(true)
+  const [jogo, setJogo] = useState<Jogo>()
+  const [golsAd, setGolsAd] = useState<any>(Number)
+  const [golsGr, setGolsGr] = useState<any>(Number)
+  const [parametro, setParametro] = useState<number>(0)
+
+  setTimeout(function(){ setParametro(parametro + 1) }, 10000);
+
+  useEffect((): void => {
+      async function getGamers(){
+        const response = await api.get(`jogo/${route.params.gamerId}`)
+        setJogo(response.data)
+
+        let golAdver = jogo?.goals.filter((objeto) => objeto.club == jogo.adversary.name)
+        let quantGolAdver = golAdver?.length
+        setGolsAd(quantGolAdver)
+        let gol = jogo?.goals.filter((objeto) => objeto.club == 'Guerreiros')
+        let quantGol = gol?.length
+        setGolsGr(quantGol)
+
+        setLoading(false)
+      }
+
+      getGamers()
+  },[parametro])
+
+
 
   function handleStart(){
     navigation.navigate('Streamer')
   }
+
+  if(loading) return <Loading/>
+
   return (
     <SafeAreaView style={styles.container}>
         <Patrocinios/>
         <View style={styles.header}>
           <View style={styles.headerClub}>
             <Image
-                  source={logoUm}
+                  source={{uri: 'https://guerreiros.herokuapp.com/LogoClubs/guerreiros.png'}}
                   style={styles.image}
             />
             <Text style={styles.headerText}>Guerreiros</Text>
           </View>
             <View style={styles.placar}>
-              <Text style={styles.placarText}>1 : 0</Text>
-              <LottiView
-                source={ball}
-                autoPlay
-                loop
-                style={styles.animation}
-              />
+              <Text style={styles.placarText}>{golsGr} : {golsAd}</Text>
+              {jogo?.status === "Marcado" ? <Text style={styles.placarSubTitle}>{jogo?.status}</Text> : jogo?.status === "Primeiro" ? <Text style={styles.placarSubTitle}>1º tempo</Text> : jogo?.status === "Intervalo" ? <Text style={styles.placarSubTitle}>Intervalo '</Text> : jogo?.status === "Segundo" ? <Text style={styles.placarSubTitle}>2º tempo '</Text> : <Text style={styles.placarSubTitle}>Jogo finalizado</Text>}
             </View>
             <View style={styles.headerClub}>
               <Image
-                  source={logoTreis}
-                  style={styles.image}
+                source={{uri: jogo?.adversary.avatar}}
+                style={styles.image}
               />
-              <Text style={styles.headerText}>PSG</Text>
+              <Text style={styles.headerText}>{jogo?.adversary.name}</Text>
             </View>
         </View>
 
-        <TouchableOpacity style={styles.button} activeOpacity={0.4} onPress={handleStart}>
-            <Text style={styles.buttonText}>Assista ao vivo</Text>
-        </TouchableOpacity>
+        {
+          jogo?.streamer === "Inativo"
+          ?
+            undefined
+          :
+            <TouchableOpacity style={styles.button} activeOpacity={0.4} onPress={handleStart}>
+              <Text style={styles.buttonText}>Assista ao jogo</Text>
+            </TouchableOpacity>
+        }
 
         <View style={styles.info}>
           <View>
             <Text style={styles.infoTitle}>⌚ Início</Text>
-            <Text style={styles.infoSubTitle}>Sábado 01/05 - 17:00</Text>
+            <Text style={styles.infoSubTitle}>{jogo?.dateGamer} - {jogo?.hourGame}</Text>
           </View>
 
           <View>
             <Text style={styles.infoTitle}>🗺 Local</Text>
-            <Text style={styles.infoSubTitle}>Arena Soccer Nova Cruz/RN</Text>
+            <Text style={styles.infoSubTitle}>{jogo?.local}</Text>
           </View>
 
           <View>
             <Text style={styles.infoTitle}>⚽ Tipo</Text>
-            <Text style={styles.infoSubTitle}>Amistoso</Text>
+            <Text style={styles.infoSubTitle}>{jogo?.tipo}</Text>
           </View>
         </View>
 
         <View style={styles.events}>
           <FlatList
             inverted
-            data={eventos}
+            data={jogo?.events}
             renderItem={({item}) => (
             <View style={styles.evento}>
               { item.event === 'Inicio primeiro' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Início da partida</Text> : item.event === 'Fim primeiro' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Intervalo</Text> : item.event === 'Inicio segundo' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Início do segundo tempo</Text> : item.event === 'Fim segundo' ? <Text style={ item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ Fim de jogo</Text> : <Text style={item.club === 'Guerreiros' ? styles.eventoTitle : item.club === '' ? styles.eventoTitleNeutro  : styles.eventoTitleAdversari}>⏱ {`${item.time} |`} {item.event === 'GOOOL' ? `${item.event} ⚽` :  item.event === 'Falta' ? <Text>{item.event} <MaterialCommunityIcons name="whistle" size={20} color="black" /></Text> : item.event} - {item.player} ({item.club})</Text>}
               <Text style={styles.eventoDescription}>{item.description}</Text>
               {item.assistance ? <Text style={styles.eventoSecundario}>{`- Assistência de ${item.assistance} 🤵🏽`}</Text> : item.cardColor ? <Text>{`Cartão ${item.cardColor} para ${item.player}`}</Text> : undefined}
             </View>)}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item?._id.toString()}
             showsVerticalScrollIndicator={false}
           />
         </View>
@@ -208,9 +183,8 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   headerText: {
-    opacity: 0.9,
-    fontSize: 14,
-    fontFamily: fonts.complement,
+    fontSize: 12,
+    fontFamily: fonts.heading,
     marginTop: 10
   },
   headerClub: {
@@ -226,10 +200,17 @@ const styles = StyleSheet.create({
   placar: {
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 0,
+    margin: 0
   },
   placarText: {
     fontSize: 32,
     fontFamily: fonts.heading
+  },
+  placarSubTitle: {
+    opacity: 0.9,
+    fontSize: 12,
+    fontFamily: fonts.complement,
   },
   animation: {
     height: 25,
