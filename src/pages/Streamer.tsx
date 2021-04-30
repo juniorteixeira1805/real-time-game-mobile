@@ -1,13 +1,25 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
+import { RouteProp } from '@react-navigation/native';
+
 import { WebView } from 'react-native-webview';
 
-export default function Streamer() {
+type RootStackParamList = {
+  Streamer: {link: String}
+};
+
+type JogoScreenRouteProp = RouteProp<RootStackParamList, 'Streamer'>;
+
+type Props = {
+    route: JogoScreenRouteProp | any,
+};
+
+export default function Streamer({route}: Props) {
 
   return (
     <WebView
-        source={{ uri: 'https://www.youtube.com/watch?v=5qap5aO4i9A/' }}
+        source={{ uri: route.params.link }}
         onError={(event) => alert(event.nativeEvent.description)}
         style={styles.container}
     />
@@ -16,6 +28,8 @@ export default function Streamer() {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#262626',
     marginTop: 25
   }
 });

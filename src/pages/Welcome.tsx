@@ -11,9 +11,9 @@ import {
 
 import escudo from '../assets/logo/escudo.png'
 import colors from '../../styles/colors';
+import fonts from '../../styles/fonts';
 
 import { useNavigation } from '@react-navigation/core';
-import fonts from '../../styles/fonts';
 
 export function Welcome() {
 
@@ -49,6 +49,7 @@ export function Welcome() {
 const style = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#262626',
         paddingVertical: 50
     },
     wrapper: {
@@ -75,6 +76,8 @@ const style = StyleSheet.create({
         marginBottom: 10,
         height: 60,
         width: 150,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.gold,
     },
     buttonText: {
         fontSize: 20,

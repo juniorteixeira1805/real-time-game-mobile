@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Alert} from 'react-native';
+
 import colors from '../../styles/colors';
 import { Patrocinios } from '../componentes/Patrocinios';
+
+import { AntDesign } from '@expo/vector-icons'; 
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 type jogadores = {
   nome: any,
   id: any,
   posicao: any,
-  pe: any,
+  caracteristica: any,
   cidade: any,
   idade: any
 }
@@ -16,8 +20,8 @@ const jogadores = [
   {
     nome: 'Messinho',
     id: 1,
-    posicao: 'goleiro',
-    pe: 'direito',
+    posicao: 'Goleiro',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -25,7 +29,7 @@ const jogadores = [
     nome:'Jonas Alexandre',
     id: 2,
     posicao: 'Ala',
-    pe: 'Esquerdo',
+    caracteristica: 'Canhoto',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -33,7 +37,7 @@ const jogadores = [
     nome: 'Jefferson',
     id: 3,
     posicao: 'Zagueiro',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -41,7 +45,7 @@ const jogadores = [
     nome: 'Jaime Dantas',
     id: 5,
     posicao: 'Ala',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '23 anos'
   },
@@ -49,7 +53,7 @@ const jogadores = [
     nome: 'Ryan Avelino',
     id: 6,
     posicao: 'Meia',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -57,7 +61,7 @@ const jogadores = [
     nome: 'Luan Araújo',
     id: 7,
     posicao: 'Meia',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '20'
   },
@@ -65,7 +69,7 @@ const jogadores = [
     nome: 'Dário Rodrigues',
     id: 8,
     posicao: 'Atacante',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '27'
   },
@@ -73,7 +77,7 @@ const jogadores = [
     nome: 'Ivson Marques',
     id: 9,
     posicao: 'Meia',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -81,23 +85,23 @@ const jogadores = [
     nome: 'Júnior ventura',
     id: 10,
     posicao: 'Ala',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '22'
   },
   {
     nome: 'Luandson',
     id: 11,
-    posicao: 'atacante',
-    pe: 'Direito',
+    posicao: 'Atacante',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
   {
     nome: 'Rodolfo Oliveira',
     id: 12,
-    posicao: 'ala',
-    pe: 'Direito',
+    posicao: 'Ala',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '20'
   },
@@ -105,7 +109,7 @@ const jogadores = [
     nome: 'Raniery',
     id: 13,
     posicao: 'Goleiro',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '30'
   },
@@ -113,15 +117,15 @@ const jogadores = [
     nome: 'David Madureira',
     id: 14,
     posicao: 'Atacante',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '21'
   },
   {
-    nome: 'Heitor Filipe',
+    nome: 'Heitor Filicaracteristica',
     id: 15,
     posicao: 'Ala',
-    pe: 'Esquerdo',
+    caracteristica: 'Canhoto',
     cidade: 'Nova Cruz/RN',
     idade: ''
   },
@@ -129,7 +133,7 @@ const jogadores = [
     nome: 'Vitor Rosa',
     id: 16,
     posicao: 'Ala',
-    pe: 'Direito',
+    caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '26'
   },
@@ -137,7 +141,7 @@ const jogadores = [
     nome: 'Vitor Guerra',
     id:17,
     posicao: '',
-    pe: '',
+    caracteristica: '',
     cidade: '',
     idade: ''
   },
@@ -145,7 +149,7 @@ const jogadores = [
     nome: 'Vinicius',
     id:18,
     posicao: '',
-    pe: '',
+    caracteristica: '',
     cidade: '',
     idade: '20'
   }
@@ -157,7 +161,7 @@ export default function Elenco() {
   function alerta(item: jogadores) {
     Alert.alert(
       `Nome: ${item.nome}`,
-      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nPé: ${item.pe}\n\nLocalização: ${item.cidade}`)
+      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nLocalização: ${item.cidade}`)
   }
 
   const [players, setPlayers] = useState<any>(jogadores)
@@ -170,7 +174,7 @@ export default function Elenco() {
           <FlatList
             data={players ? players : []}
             renderItem={({item}) => (
-            <TouchableOpacity style={styles.card} onPress={() => { alerta(item) }}><Text style={styles.subTitle} >{item.nome}</Text><Text style={styles.subTitle}>x</Text></TouchableOpacity>)}
+            <TouchableOpacity style={styles.card} onPress={() => { alerta(item) }}><Text style={styles.subTitle} >{item.nome}</Text><Text style={styles.subTitle}><AntDesign name="arrowright" size={24} color='white' /></Text></TouchableOpacity>)}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
           />
@@ -182,16 +186,10 @@ export default function Elenco() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#262626',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 50
-  },
-  title: {
-    margin: 10,
-    fontSize: 38,
-    color: colors.body_light,
-    fontWeight: 'bold'
+    paddingTop: 40
   },
   subTitle: {
     fontSize: 18,
@@ -206,8 +204,9 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.gold_dark,
-    padding: 15,
-    borderBottomWidth: 10,
+    padding: 15,  
+    marginBottom:10,
+    borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   }

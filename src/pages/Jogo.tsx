@@ -72,7 +72,7 @@ export default function Jogo({route}: Props) {
   const [golsGr, setGolsGr] = useState<any>(Number)
   const [parametro, setParametro] = useState<number>(0)
 
-  setTimeout(function(){ setParametro(parametro + 1) }, 10000);
+  setTimeout(function(){ setParametro(parametro + 1) }, 5000);
 
   useEffect((): void => {
       async function getGamers(){
@@ -91,12 +91,6 @@ export default function Jogo({route}: Props) {
 
       getGamers()
   },[parametro])
-
-
-
-  function handleStart(){
-    navigation.navigate('Streamer')
-  }
 
   if(loading) return <Loading/>
 
@@ -129,7 +123,7 @@ export default function Jogo({route}: Props) {
           ?
             undefined
           :
-            <TouchableOpacity style={styles.button} activeOpacity={0.4} onPress={handleStart}>
+            <TouchableOpacity style={styles.button} activeOpacity={0.4} onPress={() => navigation.navigate('Streamer',{link: jogo?.streamer})}>
               <Text style={styles.buttonText}>Assista ao jogo</Text>
             </TouchableOpacity>
         }
@@ -150,6 +144,7 @@ export default function Jogo({route}: Props) {
             <Text style={styles.infoSubTitle}>{jogo?.tipo}</Text>
           </View>
         </View>
+        {jogo?.bestOfTheMan === "Indefinido" ? undefined : <Text style={styles.infoTitle}>Melhor do jogo: {jogo?.bestOfTheMan} 👑</Text>}
 
         <View style={styles.events}>
           <FlatList
@@ -172,9 +167,10 @@ export default function Jogo({route}: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#262626',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 50
+    paddingTop: 40
   },
   header: {
     flexDirection: 'row',
@@ -185,11 +181,13 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 12,
     fontFamily: fonts.heading,
-    marginTop: 10
+    marginTop: 10,
+    color: colors.white,
   },
   headerClub: {
     justifyContent: 'center',
     alignItems: 'center',
+    color: colors.white,
   },
   image: {
     width: 60,
@@ -205,12 +203,14 @@ const styles = StyleSheet.create({
   },
   placarText: {
     fontSize: 32,
-    fontFamily: fonts.heading
+    fontFamily: fonts.heading,
+    color: colors.white,
   },
   placarSubTitle: {
     opacity: 0.9,
     fontSize: 12,
     fontFamily: fonts.complement,
+    color: colors.white,
   },
   animation: {
     height: 25,
@@ -244,17 +244,19 @@ const styles = StyleSheet.create({
   infoTitle: {
     fontSize: 16,
     fontFamily: fonts.heading,
+    color: colors.white,
   },
   infoSubTitle: {
     maxWidth:100,
     opacity: 0.8,
     fontSize: 14,
     fontFamily: fonts.complement,
+    color: colors.white,
   },
 
   events: {
     flex: 1,
-    backgroundColor: colors.gray
+    backgroundColor: '#413d31'
   },
   evento: {
     paddingVertical: 10,
@@ -263,30 +265,33 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   eventoTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: fonts.heading,
-    color: colors.gold_light,
-    fontWeight: 'bold'
+    color: colors.gold,
+    fontWeight: 'bold',
   },
   eventoTitleNeutro: {
-    fontSize: 18,
+    width: '100%',
+    fontSize: 16,
     fontFamily: fonts.heading,
     color: 'white',
     fontWeight: 'bold'
   },
   eventoTitleAdversari: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: fonts.heading,
     color: colors.red,
     fontWeight: 'bold'
   },
   eventoDescription:{
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fonts.text,
+    color: colors.gold_light
   },
   eventoSecundario: {
     opacity: 0.9,
-    fontSize: 16,
+    fontSize: 14,
     fontFamily: fonts.complement,
+    color: colors.gold_light
   }
 });

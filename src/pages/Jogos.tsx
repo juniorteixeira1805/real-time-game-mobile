@@ -20,6 +20,10 @@ export default function Jogos() {
 
   const navigation = useNavigation()
 
+  const [parametro, setParametro] = useState<number>(0)
+
+  setTimeout(function(){ setParametro(parametro + 1) }, 5000);
+
   useEffect((): void => {
     async function getGamers(){
       const response = await api.get("jogos")
@@ -27,7 +31,7 @@ export default function Jogos() {
       setLoading(false)
     }
     getGamers()
-  }, [])
+  }, [parametro])
 
   if(loading) return <Loading/>
   
@@ -36,7 +40,6 @@ export default function Jogos() {
       <Patrocinios/>
       <FlatList
         style={styles.list}
-        inverted
         data={jogos}
         renderItem={({item}) => (
           <TouchableOpacity  style={styles.button} onPress={() => navigation.navigate('Jogo',{gamerId: item._id})}>
@@ -81,10 +84,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#fff',
+    backgroundColor: '#262626',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: 50
+    paddingTop: 40
   },
   list: {
     flex: 1,
@@ -93,9 +96,9 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     width: '100%',
-    backgroundColor: colors.gold_light,
+    backgroundColor: colors.gold_dark,
     padding: 10,
-    borderBottomWidth: 5,
+    marginBottom: 5
   },
 
 
@@ -106,7 +109,8 @@ const styles = StyleSheet.create({
   },
   gameInfoTitle: {
     fontSize: 16,
-    fontFamily: fonts.heading
+    fontFamily: fonts.heading,
+    color: colors.white
   },
   gameInfoSubtitle: {
     justifyContent: 'center',
@@ -114,6 +118,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.text,
     opacity: 0.5,
+    color: colors.white
   },
 
 
@@ -123,6 +128,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
+    color: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 16,
@@ -131,6 +137,7 @@ const styles = StyleSheet.create({
     marginLeft: 15
   },
   subtitle: {
+    color: colors.white,
     maxWidth: 100,
     justifyContent: 'center',
     alignItems: 'center',

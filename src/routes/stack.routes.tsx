@@ -12,7 +12,7 @@ type RootStackParamList = {
     Jogos: undefined;
     Welcome: undefined;
     Elenco: undefined;
-    Streamer: undefined;
+    Streamer: {link: String};
     Jogo: {gamerId: String}
   };
 
