@@ -29,8 +29,8 @@ export function Welcome() {
                 <Image source={escudo} style={style.image} resizeMode="contain"/>
 
                 <Text style={style.subtitle}>
-                    Guerreiros é um time de futsal de Nova Cruz, localizado no Rio Grande do Norte,
-                    fundado em 2009 por Raniery Kennedi com a finalidade de se divertir com os amigos.
+                    Guerreiros é um time de futsal da cidade de Nova Cruz, localizada no estado do Rn, 
+                    que foi fundado em 2009 com a finalidade de diversão entre amigos.
                 </Text>
                 <Text style={style.subtitle}>
                     Ao longo do tempo, o time participou de alguns campeonatos locais como copas Agrestes e campeonatos municipais, 

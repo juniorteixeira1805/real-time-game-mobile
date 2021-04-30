@@ -161,7 +161,7 @@ export default function Elenco() {
   function alerta(item: jogadores) {
     Alert.alert(
       `Nome: ${item.nome}`,
-      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nLocalização: ${item.cidade}`)
+      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nReside em: ${item.cidade}`)
   }
 
   const [players, setPlayers] = useState<any>(jogadores)
