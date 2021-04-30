@@ -122,7 +122,7 @@ const jogadores = [
     idade: '21'
   },
   {
-    nome: 'Heitor Filicaracteristica',
+    nome: 'Heitor Felipe',
     id: 15,
     posicao: 'Ala',
     caracteristica: 'Canhoto',
