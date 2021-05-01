@@ -13,7 +13,9 @@ type jogadores = {
   posicao: any,
   caracteristica: any,
   cidade: any,
-  idade: any
+  idade: any,
+  gols: any,
+  assistencias: any
 }
 
 const jogadores = [
@@ -31,7 +33,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Canhoto',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Jefferson',
@@ -39,7 +43,9 @@ const jogadores = [
     posicao: 'Zagueiro',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Jaime Dantas',
@@ -47,7 +53,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '23 anos'
+    idade: '23 anos',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Ryan Avelino',
@@ -55,7 +63,9 @@ const jogadores = [
     posicao: 'Meia',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Luan Araújo',
@@ -63,7 +73,9 @@ const jogadores = [
     posicao: 'Meia',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '20'
+    idade: '20',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Dário Rodrigues',
@@ -71,7 +83,9 @@ const jogadores = [
     posicao: 'Atacante',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '27'
+    idade: '27',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Ivson Marques',
@@ -79,7 +93,9 @@ const jogadores = [
     posicao: 'Meia',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Júnior ventura',
@@ -87,7 +103,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '22'
+    idade: '22',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Luandson',
@@ -95,7 +113,9 @@ const jogadores = [
     posicao: 'Atacante',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Rodolfo Oliveira',
@@ -103,7 +123,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '20'
+    idade: '20',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Raniery',
@@ -111,7 +133,9 @@ const jogadores = [
     posicao: 'Goleiro',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '30'
+    idade: '30',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'David Madureira',
@@ -119,7 +143,9 @@ const jogadores = [
     posicao: 'Atacante',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '21'
+    idade: '21',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Heitor Felipe',
@@ -127,7 +153,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Canhoto',
     cidade: 'Nova Cruz/RN',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Vitor Rosa',
@@ -135,7 +163,9 @@ const jogadores = [
     posicao: 'Ala',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
-    idade: '26'
+    idade: '26',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Vitor Guerra',
@@ -143,7 +173,9 @@ const jogadores = [
     posicao: '',
     caracteristica: '',
     cidade: '',
-    idade: ''
+    idade: '',
+    gols: 0,
+    assistencias: 0
   },
   {
     nome: 'Vinicius',
@@ -151,7 +183,18 @@ const jogadores = [
     posicao: '',
     caracteristica: '',
     cidade: '',
-    idade: '20'
+    idade: '20',
+    gols: 0,
+    assistencias: 0
+  },
+  {
+    nome: "Felipe Gustavo",
+    id: 19,
+    Posicao: "Pivô",
+    caracteristica: 'Destro',
+    cidade: '31',
+    gols: 0,
+    assistencias: 0
   }
 ]
 
@@ -161,7 +204,7 @@ export default function Elenco() {
   function alerta(item: jogadores) {
     Alert.alert(
       `Nome: ${item.nome}`,
-      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nReside em: ${item.cidade}`)
+      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nReside em: ${item.cidade}\n\nGols pelo clube: ${item.gols}\n\nAssistências pelo clube: ${item.assistencias}`)
   }
 
   const [players, setPlayers] = useState<any>(jogadores)
