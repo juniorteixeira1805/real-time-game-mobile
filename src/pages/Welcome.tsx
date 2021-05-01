@@ -6,7 +6,8 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
-    View
+    View,
+    Linking
 } from 'react-native';
 
 import escudo from '../assets/logo/escudo.png'
@@ -40,6 +41,10 @@ export function Welcome() {
 
                 <TouchableOpacity style={style.button} activeOpacity={0.4} onPress={handleStart}>
                     <Text style={style.buttonText}>Avançar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={style.footer} onPress={() => Linking.openURL('https://api.whatsapp.com/send?phone=+558492050134&text=')}>
+                    <Text style={style.footerText}>by: Junior Teixeira </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -83,5 +88,13 @@ const style = StyleSheet.create({
         fontSize: 20,
         color: colors.gold_light,
         fontFamily: fonts.text
+    },
+    footer: {
+    },
+    footerText: {
+        fontSize: 15,
+        fontFamily: fonts.text,
+        color: colors.gold,
+        opacity: 0.7
     }
 })
