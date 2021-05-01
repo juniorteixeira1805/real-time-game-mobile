@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Alert
 import colors from '../../styles/colors';
 import { Patrocinios } from '../componentes/Patrocinios';
 
-import { AntDesign } from '@expo/vector-icons'; 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { Entypo } from '@expo/vector-icons'; 
 
 type jogadores = {
   nome: any,
@@ -204,7 +203,12 @@ export default function Elenco() {
   function alerta(item: jogadores) {
     Alert.alert(
       `Nome: ${item.nome}`,
-      `Idade: ${item.idade}\n\nPosição: ${item.posicao}\n\nCaracterística: ${item.caracteristica}\n\nReside em: ${item.cidade}\n\nGols pelo clube: ${item.gols}\n\nAssistências pelo clube: ${item.assistencias}`)
+      `Idade: ${item.idade}\n
+      Posição: ${item.posicao}\n
+      Característica: ${item.caracteristica}\n
+      Reside em: ${item.cidade}\n
+      Gols pelo clube: ${item.gols}\n
+      Assistências pelo clube: ${item.assistencias}`)
   }
 
   const [players, setPlayers] = useState<any>(jogadores)
@@ -217,7 +221,7 @@ export default function Elenco() {
           <FlatList
             data={players ? players : []}
             renderItem={({item}) => (
-            <TouchableOpacity style={styles.card} onPress={() => { alerta(item) }}><Text style={styles.subTitle} >{item.nome}</Text><Text style={styles.subTitle}><AntDesign name="arrowright" size={24} color='white' /></Text></TouchableOpacity>)}
+            <TouchableOpacity style={styles.card} onPress={() => { alerta(item) }}><Text style={styles.subTitle} >{item.nome}</Text><Text style={styles.subTitle}><Entypo name="chevron-small-right" size={24} color="black" /></Text></TouchableOpacity>)}
             keyExtractor={(item) => item.id.toString()}
             showsVerticalScrollIndicator={false}
           />

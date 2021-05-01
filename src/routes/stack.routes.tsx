@@ -11,6 +11,7 @@ import Streamer from '../pages/Streamer';
 type RootStackParamList = {
     Jogos: undefined;
     Welcome: undefined;
+    News: undefined;
     Elenco: undefined;
     Streamer: {link: String};
     Jogo: {gamerId: String}
@@ -41,11 +42,17 @@ const AppRoutes: React.FC = () => (
             name="Elenco"
             component={AuthRoutes}
         />
+
+        <stackRoutes.Screen
+            name="News"
+            component={AuthRoutes}
+        />
     
         <stackRoutes.Screen
             name="Jogo"
             component={Jogo}
         />
+        
 
         <stackRoutes.Screen
             name="Streamer"
