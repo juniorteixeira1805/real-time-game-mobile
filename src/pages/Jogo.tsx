@@ -79,12 +79,10 @@ export default function Jogo({route}: Props) {
         const response = await api.get(`jogo/${route.params.gamerId}`)
         setJogo(response.data)
 
-        let golAdver = response?.data.goals.filter((objeto: any) => objeto.club == jogo?.adversary.name)
-        let quantGolAdver = golAdver?.length
-        setGolsAd(quantGolAdver)
-        let gol = response?.data.goals.filter((objeto: any) => objeto.club == 'Guerreiros')
-        let quantGol = gol?.length
-        setGolsGr(quantGol)
+        let golAdver = await response?.data.goals.filter((objeto: any) => objeto.club !== 'Guerreiros')
+        setGolsAd(golAdver?.length)
+        let gol = await response?.data.goals.filter((objeto: any) => objeto.club === 'Guerreiros')
+        setGolsGr(gol?.length)
 
         setLoading(false)
       }

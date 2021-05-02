@@ -54,7 +54,7 @@ const jogadores = [
     cidade: 'Nova Cruz/RN',
     idade: '23 anos',
     gols: 0,
-    assistencias: 0
+    assistencias: 1
   },
   {
     nome: 'Ryan Avelino',
@@ -77,13 +77,13 @@ const jogadores = [
     assistencias: 0
   },
   {
-    nome: 'Dário Rodrigues',
+    nome: 'Dáryo Rodrigues',
     id: 8,
     posicao: 'Atacante',
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '27',
-    gols: 0,
+    gols: 1,
     assistencias: 0
   },
   {
@@ -103,7 +103,7 @@ const jogadores = [
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '22',
-    gols: 0,
+    gols: 1,
     assistencias: 0
   },
   {
@@ -143,7 +143,7 @@ const jogadores = [
     caracteristica: 'Destro',
     cidade: 'Nova Cruz/RN',
     idade: '21',
-    gols: 0,
+    gols: 1,
     assistencias: 0
   },
   {
@@ -153,7 +153,7 @@ const jogadores = [
     caracteristica: 'Canhoto',
     cidade: 'Nova Cruz/RN',
     idade: '',
-    gols: 0,
+    gols: 1,
     assistencias: 0
   },
   {

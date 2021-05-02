@@ -55,7 +55,10 @@ export default function Jogos() {
                     source={{uri: 'https://guerreiros.herokuapp.com/LogoClubs/guerreiros.png'}}
                     style={styles.image}
                   />
-                  <Text style={styles.title}>Guerreiros</Text>
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text style={styles.title}>Guerreiros</Text>
+                    <Text style={styles.title}></Text>
+                  </View>
                 </View>
     
                 <View style={styles.clubs}>
@@ -63,7 +66,10 @@ export default function Jogos() {
                     source={{uri: item.adversary.avatar}}
                     style={styles.image}
                   />
-                  <Text style={styles.title}>{item.adversary.name}</Text>
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Text style={styles.title}>{item.adversary.name}</Text>
+                    <Text style={styles.title}></Text>
+                  </View>
                 </View>
               </View>
     
@@ -105,12 +111,12 @@ const styles = StyleSheet.create({
   gameInfo: {
     paddingBottom: 4,
     width: '100%',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   gameInfoTitle: {
     fontSize: 16,
     fontFamily: fonts.heading,
-    color: colors.white
+    color: colors.white,
   },
   gameInfoSubtitle: {
     justifyContent: 'center',
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: fonts.text,
     opacity: 0.5,
-    color: colors.white
+    color: colors.white,
   },
 
 
@@ -134,11 +140,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: fonts.text,
     maxWidth: 175,
-    marginLeft: 15
+    marginLeft: 15,
   },
   subtitle: {
     color: colors.white,
-    maxWidth: 100,
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 14,

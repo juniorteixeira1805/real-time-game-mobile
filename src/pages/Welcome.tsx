@@ -14,6 +14,8 @@ import escudo from '../assets/logo/escudo.png'
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
+import { AntDesign } from '@expo/vector-icons';
+
 import { useNavigation } from '@react-navigation/core';
 
 export function Welcome() {
@@ -40,11 +42,12 @@ export function Welcome() {
                 </Text>
 
                 <TouchableOpacity style={style.button} activeOpacity={0.4} onPress={handleStart}>
-                    <Text style={style.buttonText}>Avançar</Text>
+                    <Text style={style.buttonText}><AntDesign name="right" size={26} color={colors.gold_light} /></Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={style.footer} onPress={() => Linking.openURL('https://api.whatsapp.com/send?phone=+558492050134&text=')}>
-                    <Text style={style.footerText}>by: Junior Teixeira </Text>
+                <TouchableOpacity style={style.footer} onPress={() => Linking.openURL('https://www.linkedin.com/in/gilvan-carlos/')}>
+                    <Text style={style.footerText}>From</Text>
+                    <Text style={style.footerTextSecondary}>Junior Teixeira </Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
@@ -67,6 +70,7 @@ const style = StyleSheet.create({
         width: '100%',
         textAlign: 'justify',
         fontSize:16,
+        lineHeight: 28,
         color: colors.gold_light,
         fontFamily: fonts.text
     },
@@ -77,11 +81,11 @@ const style = StyleSheet.create({
         backgroundColor: colors.gold_dark,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 16,
+        borderRadius: 14,
         marginBottom: 10,
         height: 60,
-        width: 150,
-        borderBottomWidth: 1,
+        width: 100,
+        borderBottomWidth: 2,
         borderBottomColor: colors.gold,
     },
     buttonText: {
@@ -90,11 +94,20 @@ const style = StyleSheet.create({
         fontFamily: fonts.text
     },
     footer: {
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     footerText: {
-        fontSize: 15,
-        fontFamily: fonts.text,
+        fontSize: 18,
+        fontFamily: fonts.heading,
         color: colors.gold,
         opacity: 0.7
+    },
+    footerTextSecondary: {
+        fontSize: 15,
+        textDecorationLine: 'underline',
+        fontFamily: fonts.text,
+        color: colors.gold,
+        opacity: 0.7,
     }
 })
