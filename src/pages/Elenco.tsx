@@ -1,232 +1,108 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Alert} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, TouchableOpacity, Image, Alert} from 'react-native';
 
 import colors from '../../styles/colors';
+import api from '../services/api'
+
 import { Patrocinios } from '../componentes/Patrocinios';
+import { Loading } from '../componentes/Loading'
 
 import { Entypo } from '@expo/vector-icons'; 
+import { useNavigation } from '@react-navigation/core';
+import fonts from '../../styles/fonts';
 
 type jogadores = {
+  avatar: any
   nome: any,
-  id: any,
+  _id: any,
   posicao: any,
   caracteristica: any,
-  cidade: any,
-  idade: any,
-  gols: any,
-  assistencias: any
-}
+  endereco: any,
+  ativo: any
+  dateCreater: any,
 
-const jogadores = [
-  {
-    nome: 'Messinho',
-    id: 1,
-    posicao: 'Goleiro',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: ''
-  },
-  {
-    nome:'Jonas Alexandre',
-    id: 2,
-    posicao: 'Ala',
-    caracteristica: 'Canhoto',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Jefferson',
-    id: 3,
-    posicao: 'Zagueiro',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Jaime Dantas',
-    id: 5,
-    posicao: 'Ala',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '23 anos',
-    gols: 0,
-    assistencias: 1
-  },
-  {
-    nome: 'Ryan Avelino',
-    id: 6,
-    posicao: 'Meia',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Luan Araújo',
-    id: 7,
-    posicao: 'Meia',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '20',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Dáryo Rodrigues',
-    id: 8,
-    posicao: 'Atacante',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '27',
-    gols: 1,
-    assistencias: 0
-  },
-  {
-    nome: 'Ivson Marques',
-    id: 9,
-    posicao: 'Meia',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Júnior ventura',
-    id: 10,
-    posicao: 'Ala',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '22',
-    gols: 1,
-    assistencias: 0
-  },
-  {
-    nome: 'Luandson',
-    id: 11,
-    posicao: 'Atacante',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Rodolfo Oliveira',
-    id: 12,
-    posicao: 'Ala',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '20',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Raniery',
-    id: 13,
-    posicao: 'Goleiro',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '30',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'David Madureira',
-    id: 14,
-    posicao: 'Atacante',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '21',
-    gols: 1,
-    assistencias: 0
-  },
-  {
-    nome: 'Heitor Felipe',
-    id: 15,
-    posicao: 'Ala',
-    caracteristica: 'Canhoto',
-    cidade: 'Nova Cruz/RN',
-    idade: '',
-    gols: 1,
-    assistencias: 0
-  },
-  {
-    nome: 'Vitor Rosa',
-    id: 16,
-    posicao: 'Ala',
-    caracteristica: 'Destro',
-    cidade: 'Nova Cruz/RN',
-    idade: '26',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Vitor Guerra',
-    id:17,
-    posicao: '',
-    caracteristica: '',
-    cidade: '',
-    idade: '',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: 'Vinicius',
-    id:18,
-    posicao: '',
-    caracteristica: '',
-    cidade: '',
-    idade: '20',
-    gols: 0,
-    assistencias: 0
-  },
-  {
-    nome: "Felipe Gustavo",
-    id: 19,
-    Posicao: "Pivô",
-    caracteristica: 'Destro',
-    cidade: '31',
-    gols: 0,
-    assistencias: 0
+  dados: {
+    idade: any,
+    gols: any,
+    assistencias: any,
+    cartaoVermelho: any,
+    cartaoAmarelo: any,
   }
-]
-
+}[]
 
 export default function Elenco() {
+  const navigation = useNavigation()
 
-  function alerta(item: jogadores) {
-    Alert.alert(
-      `Nome: ${item.nome}`,
-      `Idade: ${item.idade}\n
-      Posição: ${item.posicao}\n
-      Característica: ${item.caracteristica}\n
-      Reside em: ${item.cidade}\n
-      Gols pelo clube: ${item.gols}\n
-      Assistências pelo clube: ${item.assistencias}`)
-  }
+  const [players, setPlayers] = useState<jogadores>()
+  const [loading , setLoading] = useState(true)
+  const [artilheiros, setArtilheiros] = useState<jogadores>()
+  const [assist, setAssist] = useState<jogadores>()
 
-  const [players, setPlayers] = useState<any>(jogadores)
+  useEffect((): void => {
+    async function getGamers(){
+        const response = await api.get("jogadores/jogadores")
+        setPlayers(response.data)
+        setArtilheiros(response.data.filter((obj: any) => obj.dados.gols > 0 ))
+        setAssist(response.data.filter((obj: any) => obj.dados.assistencias > 0 ))
+        setLoading(false)
+    }
+    getGamers()
+  }, [])
+
+  if(loading) return <Loading/>
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Patrocinios/>
-
-        <SafeAreaView style={styles.list}>
+        <View >
+          <Text style={styles.title}>Elenco</Text>
           <FlatList
-            data={players ? players : []}
+            data={players}
+            horizontal
+            style={styles.list}
             renderItem={({item}) => (
-            <TouchableOpacity style={styles.card} onPress={() => { alerta(item) }}><Text style={styles.subTitle} >{item.nome}</Text><Text style={styles.subTitle}><Entypo name="chevron-small-right" size={24} color="black" /></Text></TouchableOpacity>)}
-            keyExtractor={(item) => item.id.toString()}
-            showsVerticalScrollIndicator={false}
+            <TouchableOpacity style={styles.card} onPress={() => Alert.alert(`Em breve você poderá ver o perfil de ${item.nome}`) /*navigation.navigate('Jogo',{gamerId: item._id})*/}>
+              <Image
+                  source={{uri: item.avatar}}
+                  style={styles.image}
+              />
+              <Text style={styles.subTitle} >{item.nome}</Text>
+              <Text style={styles.subTitle}>{item.posicao}</Text>
+            </TouchableOpacity>)}
+            keyExtractor={(item) => item._id.toString()}
           />
-        </SafeAreaView>
-    </View>
+        </View>
+        <View style={styles.cardTable}>
+          <Text style={styles.title}>Artilheiros</Text>
+          <FlatList
+            data={artilheiros}
+            style={styles.list}
+            renderItem={({item, index}) => (
+              <View style={styles.table}>
+                  <Text style={styles.tableText}>{index+1}</Text>
+                  <Text style={styles.tableText} >{item.nome}</Text>
+                  {item.dados.gols > 1 ? <Text style={styles.tableText}>{item.dados.gols} Gols</Text> : <Text style={styles.tableText}>{item.dados.gols} Gol</Text>}
+              </View>
+            )}
+            keyExtractor={(item) => item._id.toString()}
+          />
+        </View>
+        <View style={styles.cardTable}>
+          <Text style={styles.title}>Líderes em assistências</Text>
+          <FlatList
+            data={assist}
+            style={styles.list}
+            renderItem={({item, index}) => (
+              <View style={styles.table}>
+                  <Text style={styles.tableText}>{index+1}</Text>
+                  <Text style={styles.tableText} >{item.nome}</Text>
+                  {item.dados.gols > 1 ? <Text style={styles.tableText}>{item.dados.assistencias} Assist.</Text> : <Text style={styles.tableText}>{item.dados.assistencias} Assist.</Text>}
+              </View>
+            )}
+            keyExtractor={(item) => item._id.toString()}
+          />
+        </View>
+    </SafeAreaView>
   );
 }
 
@@ -234,27 +110,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
     paddingTop: 40
   },
   subTitle: {
-    fontSize: 18,
+    fontSize: 16,
     color: colors.gold_light,
-    fontWeight: '500'
+    fontFamily: fonts.text
+  },
+  title :{
+    fontSize: 22,
+    color: colors.gold,
+    fontFamily: fonts.heading,
+    marginLeft: 15,
   },
   list: {
-    flex: 1,
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingHorizontal: 25,
+    maxHeight:200
   },
   card: {
     backgroundColor: colors.gold_dark,
-    padding: 15,  
-    marginBottom:10,
+    padding: 15,
+    minWidth: 150,
+    marginHorizontal:10,
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'justify',
+    marginBottom: 5
+  },
+  image: {
+    width: 75,
+    height: 75,
+    borderRadius: 50
+  },
+  table: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  tableText: {
+    fontSize: 18,
+    color: colors.gold_light,
+    fontFamily: fonts.text,
+    marginHorizontal: 20,
+  },
+  cardTable: {
+    marginTop: 10,
+    backgroundColor: colors.gold_dark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'justify'
   }
 });
