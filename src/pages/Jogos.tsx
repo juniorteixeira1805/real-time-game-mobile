@@ -27,7 +27,7 @@ export default function Jogos() {
   useEffect((): void => {
     async function getGamers(){
       const response = await api.get("jogos")
-      if(loading) setJogos(response.data)
+      setJogos(response.data)
       setLoading(false)
     }
     getGamers()
