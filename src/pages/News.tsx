@@ -1,36 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, SafeAreaView, Image } from 'react-native';
 
 import colors from '../../styles/colors';
 import { Patrocinios } from '../componentes/Patrocinios';
 
+import {Loading} from '../componentes/Loading'
+
 import fonts from '../../styles/fonts';
+import api from '../services/api'
 
 type news = [
     {
         _id: String
         title: String | undefined,
         description: String | undefined,
-        images: String | any,
+        images: any,
         author: any | undefined,
         date: any | undefined,
-    }
-]
-
-const noticias: news = [
-    {
-        _id: '0',
-        title: 'AMISTOSO DE PREPARAÇÃO',
-        description: 'Guerreiros da início a pré temporada e joga amistoso neste Sábado (01/05), contra o Vila Nova Esporte Clube de Pedro Velho/RN. O jogo acontecerá no Arenna Soccer localizado em Nova Cruz.',
-        images: 'Inativo',
-        author: 'Teixeira, Junior',
-        date: '01/05/2021'
+        dateNoticia: any | undefined
     }
 ]
 
 export default function News() {
 
-    const [news, setNews] = useState<news>(noticias)
+    const [news, setNews] = useState<news>()
+    const [loading , setLoading] = useState(true)
+
+    useEffect((): void => {
+        async function getGamers(){
+            const response = await api.get("noticias/noticias")
+            setNews(response.data)
+            setLoading(false)
+        }
+        getGamers()
+      }, [])
+
+    if(loading) return <Loading/>
 
     return (
         <View style={styles.container}>
@@ -43,20 +48,22 @@ export default function News() {
                     <View style={styles.card} >
                         <Text style={styles.title} >{item?.title}</Text>
                         <Text style={styles.subTitle}>{item?.description}</Text>
-                        {
-                            item.images === 'Inativo'
-                            ?
-                            undefined
-                            :
-                            <Image
-                                source={{uri: item.images}}
-                                style={styles.image}
-                            />
-                        }
-
+                        <FlatList
+                            data={item.images}
+                            renderItem={({item}) => (
+                                <View>
+                                    <Image
+                                        source={{uri: item.link}}
+                                        style={styles.image}
+                                    />
+                                    <Text style={styles.footerTitle}>Créditos da imagem: {item?.author}</Text>
+                                </View>
+                            )}
+                            keyExtractor={(item) => item._id.toString()}
+                        />
                         <View style={styles.footer}>
                             <Text style={styles.footerTitle}>Por: {item?.author}</Text>
-                            <Text style={styles.footerTitle}>{item?.date}</Text>
+                            <Text style={styles.footerTitle}>{item?.dateNoticia}</Text>
                         </View>
                     </View>)}
                 keyExtractor={(item) => item._id.toString()}
@@ -101,6 +108,8 @@ const styles = StyleSheet.create({
     },
     image:{
         width: 250,
+        height: 250,
+        marginHorizontal: 5
     },
     footer: {
         justifyContent: 'space-between',
