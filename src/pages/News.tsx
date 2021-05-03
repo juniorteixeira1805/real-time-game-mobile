@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, Image } from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, Image, Dimensions } from 'react-native';
 
 import colors from '../../styles/colors';
 import { Patrocinios } from '../componentes/Patrocinios';
@@ -50,13 +50,14 @@ export default function News() {
                         <Text style={styles.subTitle}>{item?.description}</Text>
                         <FlatList
                             data={item.images}
+                            horizontal
                             renderItem={({item}) => (
                                 <View>
                                     <Image
                                         source={{uri: item.link}}
                                         style={styles.image}
                                     />
-                                    <Text style={styles.footerTitle}>Créditos da imagem: {item?.author}</Text>
+                                    <Text style={styles.footerTitle}>Créditos: {item?.authorImage}</Text>
                                 </View>
                             )}
                             keyExtractor={(item) => item._id.toString()}
@@ -107,19 +108,19 @@ const styles = StyleSheet.create({
         fontFamily: fonts.heading
     },
     image:{
-        width: 250,
-        height: 250,
-        marginHorizontal: 5
+        width: Dimensions.get('window').height * 0.5,
+        height: Dimensions.get('window').width * 0.7,
+        margin: 5
     },
     footer: {
         justifyContent: 'space-between',
         flexDirection: 'row'
     },
     footerTitle: {
-        fontSize: 10,
+        fontSize: 12,
         color: colors.gold_light,
         fontFamily: fonts.text,
-        opacity: 0.5,
+        opacity: 0.7,
 
     }
 });
