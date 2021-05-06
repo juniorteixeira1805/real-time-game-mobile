@@ -12,7 +12,6 @@ import {Patrocinios} from '../componentes/Patrocinios'
 import {Loading} from '../componentes/Loading'
 
 import { useNavigation } from '@react-navigation/core';
-import LottiView from  'lottie-react-native'
 
 export default function Jogos() {
   const [jogos, setJogos] = useState(Object)
@@ -30,6 +29,7 @@ export default function Jogos() {
       setJogos(response.data)
       setLoading(false)
     }
+
     getGamers()
   }, [parametro])
 
@@ -45,7 +45,14 @@ export default function Jogos() {
           <TouchableOpacity  style={styles.button} onPress={() => navigation.navigate('Jogo',{gamerId: item._id})}>
             <View style={styles.gameInfo}>
               {item.tipo === 'Amistoso' ? <Text style={styles.gameInfoTitle}>⚽ {item.tipo}</Text> : <Text style={styles.gameInfoTitle}><Image source={{uri: `https://guerreiros.herokuapp.com/logoTorneios/${item.tipo}.png`}} style={styles.image}/> {item.tipo}</Text> }
+              {
+              item.status === "Marcado" ? 
               <Text style={styles.gameInfoSubtitle}>{item.dateGamer} - {item.hourGame}</Text>
+              :  item.status === "Jogo finalizado" ?
+              <Text style={styles.gameInfoSubtitle}>{item.status}</Text> 
+              : 
+              <Text style={styles.gameInfoSubtitle}>{item.time}</Text> 
+              }
             </View>
 
             <View style={styles.content}>
@@ -73,8 +80,16 @@ export default function Jogos() {
                 </View>
               </View>
     
-              <View style={{justifyContent:"center", alignItems: 'center'}}>
-                {item.status === "Marcado" ? <Text style={styles.subtitle}>{item.local}</Text> : item.status === "Primeiro" ? <Text style={styles.subtitle}>Primeiro tempo<LottiView source={ball} autoPlay loop style={styles.animation}/></Text> : item.status === "Intervalo" ? <Text style={styles.subtitle}>Intervalo '</Text> : item.status === "Segundo" ? <Text style={styles.subtitle}>Segundo tempo<LottiView source={ball} autoPlay loop style={styles.animation}/></Text> : <Text style={styles.subtitle}>Jogo finalizado</Text>}
+              <View style={{ flex:1, justifyContent:"center", alignItems: 'center', maxWidth: 100}}>
+                {
+                item.status === "Marcado" ?
+                <Text style={styles.subtitle}>{item.local}</Text> 
+                : 
+                <View style={{ flex:1, justifyContent:"space-around", alignItems: 'center'}}>
+                  <Text style={styles.subtitle}>{(item.goals.filter((obj: any) => obj.club === "Guerreiros")).length}</Text>
+                  <Text style={styles.subtitle}>{(item.goals.filter((obj: any) => obj.club !== "Guerreiros")).length}</Text> 
+                </View>
+                }
               </View>
             </View>
           </TouchableOpacity>
@@ -146,9 +161,8 @@ const styles = StyleSheet.create({
     color: colors.white,
     justifyContent: 'center',
     alignItems: 'center',
-    fontSize: 14,
-    fontFamily: fonts.complement,
-    opacity: 0.5,
+    fontSize: 16,
+    fontFamily: fonts.text,
   },
   clubs: {
     flexDirection: 'row',

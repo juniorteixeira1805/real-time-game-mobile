@@ -40,7 +40,7 @@ const AuthRoutes = () => {
             />
 
             <AppTab.Screen
-                name="Elenco"
+                name="Equipe"
                 component={Elenco}
                 options={{
                     tabBarIcon: (({size, color}) => (
