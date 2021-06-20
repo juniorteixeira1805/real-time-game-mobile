@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#262626',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 30
+    marginTop: 40,
   },
   header: {
     width: '100%',

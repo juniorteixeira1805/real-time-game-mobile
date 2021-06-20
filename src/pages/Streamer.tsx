@@ -30,6 +30,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
-    marginTop: 25
+    marginTop: 40,
   }
 });
