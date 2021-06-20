@@ -180,7 +180,10 @@ export default function Jogo({route}: Props) {
 
             <View style={styles.cardInfo}>
               <Text style={styles.infoTitle}>⚽ Tipo</Text>
-              <Text style={styles.infoSubTitle}>{jogo?.tipo}</Text>
+              {jogo.tipo === 'Amistoso' ? <Text style={styles.infoTitle}>⚽ {jogo.tipo}</Text>
+              : <Text style={styles.infoTitle}>
+                  {jogo.tipo.replace(".png", "").replace(".jpg", "").replace("-", " ").replace("-", " ").replace("-", " ")}
+                </Text>}
             </View>
           </View>
           :
@@ -368,7 +371,8 @@ const styles = StyleSheet.create({
   },
   cardInfo: {
     justifyContent: 'center',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
+    maxWidth: 110
   },
   infoTitle: {
     fontSize: 14,

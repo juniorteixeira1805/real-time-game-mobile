@@ -41,6 +41,15 @@ export default function Elenco() {
   useEffect((): void => {
     async function getGamers(){
         const response = await api.get("jogadores/jogadores")
+        response.data.sort(function (a: any, b: any) {
+          if (a.posicao > b.posicao) {
+            return 1;
+          }
+          if (a.posicao < b.posicao) {
+            return -1;
+          }
+          return 0;
+        });
         const res = await api.get("equipe/dados")
         setDados(res.data)
         setPlayers(response.data)
