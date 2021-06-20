@@ -17,6 +17,7 @@
     "axios": "^0.21.1",
     "expo": "~41.0.1",
     "expo-app-loading": "^1.0.3",
+    "expo-clipboard": "~1.0.2",
     "expo-status-bar": "~1.0.4",
     "lottie-react-native": "3.5.0",
     "react": "16.13.1",

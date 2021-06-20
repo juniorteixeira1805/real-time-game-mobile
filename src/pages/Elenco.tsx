@@ -7,7 +7,6 @@ import api from '../services/api'
 import { Patrocinios } from '../componentes/Patrocinios';
 import { Loading } from '../componentes/Loading'
 
-import { Entypo } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/core';
 import fonts from '../../styles/fonts';
 
@@ -35,15 +34,14 @@ export default function Elenco() {
 
   const [players, setPlayers] = useState<jogadores>()
   const [loading , setLoading] = useState(true)
-  const [artilheiros, setArtilheiros] = useState<jogadores>()
-  const [assist, setAssist] = useState<jogadores>()
+  const [dados, setDados] = useState<any>()
 
   useEffect((): void => {
     async function getGamers(){
         const response = await api.get("jogadores/jogadores")
+        const res = await api.get("equipe/dados")
+        setDados(res.data)
         setPlayers(response.data)
-        setArtilheiros(response.data.filter((obj: any) => obj.dados.gols > 0 ))
-        setAssist(response.data.filter((obj: any) => obj.dados.assistencias > 0 ))
         setLoading(false)
     }
     getGamers()
@@ -53,7 +51,6 @@ export default function Elenco() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Patrocinios/>
         <View >
           <Text style={styles.title}>Elenco</Text>
           <FlatList
@@ -75,7 +72,7 @@ export default function Elenco() {
         <View style={styles.cardTable}>
           <Text style={styles.title}>Artilheiros</Text>
           <FlatList
-            data={artilheiros}
+            data={dados.artilheiros}
             style={styles.list}
             renderItem={({item, index}) => (
               <View style={styles.table}>
@@ -90,7 +87,7 @@ export default function Elenco() {
         <View style={styles.cardTable}>
           <Text style={styles.title}>Líderes em assistências</Text>
           <FlatList
-            data={assist}
+            data={dados.assistencias}
             style={styles.list}
             renderItem={({item, index}) => (
               <View style={styles.table}>
@@ -102,6 +99,24 @@ export default function Elenco() {
             keyExtractor={(item) => item._id.toString()}
           />
         </View>
+
+        <View>
+          <Text style={styles.title}>Dados</Text>
+          <View style={styles.dados}>
+            <Text style={styles.tableText}>Jogos: {dados.jogos}</Text>
+            <Text style={styles.tableText}>Vitórias: 2</Text>
+            <Text style={styles.tableText}>Derrotas: 0</Text>
+          </View>
+          <View style={styles.dados}>
+            <Text style={styles.tableText}>Gols marcados: {dados.golsMarcados}</Text>
+            <Text style={styles.tableText}>Média por jogo: {dados.golsFeitosPorJogo}</Text>
+          </View>
+          <View style={styles.dados}>
+            <Text style={styles.tableText}>Gols sofridos: {dados.golsSofridos}</Text>
+            <Text style={styles.tableText}>Média por jogo: {dados.golsSofridosPorJogo}</Text>
+          </View>
+        </View>
+
     </SafeAreaView>
   );
 }
@@ -110,7 +125,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#262626',
-    paddingTop: 40
+    paddingTop: 40,
+    justifyContent: 'center'
   },
   subTitle: {
     fontSize: 16,
@@ -128,7 +144,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.gold_dark,
-    padding: 15,
+    padding: 5,
     minWidth: 150,
     marginHorizontal:10,
     borderRadius: 10,
@@ -138,8 +154,8 @@ const styles = StyleSheet.create({
     marginBottom: 5
   },
   image: {
-    width: 75,
-    height: 75,
+    width: 100,
+    height: 100,
     borderRadius: 50
   },
   table: {
@@ -157,6 +173,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gold_dark,
     justifyContent: 'center',
     alignItems: 'center',
-    textAlign: 'justify'
+    textAlign: 'justify',
+    maxHeight: 125,
+
+  },
+  dados: {
+    flexDirection: 'row',
+    justifyContent: 'center'
   }
 });

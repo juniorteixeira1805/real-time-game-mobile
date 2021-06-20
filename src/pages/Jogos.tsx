@@ -44,7 +44,7 @@ export default function Jogos() {
         renderItem={({item}) => (
           <TouchableOpacity  style={styles.button} onPress={() => navigation.navigate('Jogo',{gamerId: item._id})}>
             <View style={styles.gameInfo}>
-              {item.tipo === 'Amistoso' ? <Text style={styles.gameInfoTitle}>⚽ {item.tipo}</Text> : <Text style={styles.gameInfoTitle}><Image source={{uri: `https://guerreiros.herokuapp.com/logoTorneios/${item.tipo}.png`}} style={styles.image}/> {item.tipo}</Text> }
+              {item.tipo === 'Amistoso' ? <Text style={styles.gameInfoTitle}>⚽ {item.tipo}</Text> : <Text style={styles.gameInfoTitle}><Image source={{ uri: `https://guerreiros.herokuapp.com/logoTorneios/${item.tipo}` }} style={styles.image} /> {item.tipo.replace(".png", "").replace(".jpg", "").replace("-", " ").replace("-", " ").replace("-", " ")}</Text>}
               {
               item.status === "Marcado" ? 
               <Text style={styles.gameInfoSubtitle}>{item.dateGamer} - {item.hourGame}</Text>

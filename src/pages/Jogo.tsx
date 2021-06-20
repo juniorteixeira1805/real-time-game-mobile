@@ -24,7 +24,7 @@ type Props = {
 };
 
 interface Jogo {
-    adversary: {
+  adversary: {
       avatar: any,
       name: any
     },
@@ -65,6 +65,7 @@ interface Jogo {
       _id: String,
       name: String | undefined,
       posicao: String | undefined
+      avatar: any
     }] | undefined
     dateGamer: String,
     hourGame: String,
@@ -270,6 +271,10 @@ export default function Jogo({route}: Props) {
           data={jogo?.escalacao}
           renderItem={({item}) => (
           <View style={styles.escalacao}>
+              <Image
+                source={{ uri: item.avatar }}
+                style={styles.image}
+              />
             <Text style={ styles.eventoTitle }> {item.name} ({item.posicao})</Text>
           </View>)}
           keyExtractor={(item) => item._id.toString()}
@@ -522,6 +527,7 @@ const styles = StyleSheet.create({
 
   escalacao: {
     flex: 1,
+    flexDirection: 'row',
     backgroundColor: colors.gold_dark,
     justifyContent: 'flex-start',
     alignItems: 'center',

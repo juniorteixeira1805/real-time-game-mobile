@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Text,
     SafeAreaView,
@@ -10,35 +10,49 @@ import {
     Linking
 } from 'react-native';
 
-import escudo from '../assets/logo/escudo.png'
+import pix from '../assets/icons/pix.png'
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
 import { AntDesign } from '@expo/vector-icons';
 
 import { useNavigation } from '@react-navigation/core';
+import Clipboard from 'expo-clipboard';
 
 export function Welcome() {
-
+    const [alert, setAlert] = useState(false)
     const navigation = useNavigation()
 
     function handleStart(){
         navigation.navigate('Jogos')
     }
 
+    function handleClick(){
+        Clipboard.setString('84991712439')
+        setAlert(true)
+    }
+
     return (
         <SafeAreaView style={style.container}>
             <View style={style.wrapper}>
-                <Image source={escudo} style={style.image} resizeMode="contain"/>
-
+                <View>
+                    <Image source={pix} style={style.image} resizeMode="contain"/>
+                    <Text style={style.title}>
+                        CHAVE PIX:
+                    </Text>
+        
+                    <TouchableOpacity activeOpacity={0.4} onPress={handleClick}>
+                        <Text style={style.title}>84991712439</Text>
+                    </TouchableOpacity>
+                </View>
+                {
+                    alert ?
+                    <Text style={style.alert}>Chave copiada!</Text>
+                    :
+                    undefined
+                }
                 <Text style={style.subtitle}>
-                    Guerreiros é um time de futsal da cidade de Nova Cruz, localizada no estado do RN, 
-                    que foi fundado em 2009 com a finalidade de diversão entre amigos.
-                </Text>
-                <Text style={style.subtitle}>
-                    Ao longo do tempo, o time participou de alguns campeonatos locais como copas Agrestes e campeonatos municipais, 
-                    conquistando assim algumas taças em sua trajetória. Com isso, os Guerreiros vem crescendo de maneira gradativa 
-                    e torna-se pouco a pouco uma equipe de valor e competitiva.
+                    Os planos de socios torcedores estão sendo desenvolvidos. Mas, enquando não estão prontos, você pode nos ajudar e ser parte de cada vitória.
                 </Text>
 
                 <TouchableOpacity style={style.button} activeOpacity={0.4} onPress={handleStart}>
@@ -73,6 +87,12 @@ const style = StyleSheet.create({
         lineHeight: 28,
         color: colors.gold_light,
         fontFamily: fonts.text
+    },
+    title: {
+        fontSize:22,
+        color: colors.gold,
+        fontFamily: fonts.heading,
+        alignSelf: 'center',
     },
     image: {
         height: Dimensions.get('window').width * 0.5
@@ -109,5 +129,16 @@ const style = StyleSheet.create({
         fontFamily: fonts.text,
         color: colors.gold,
         opacity: 0.7,
+    },
+    alert: {
+        fontSize: 12,
+        fontFamily: fonts.text,
+        color: colors.gray,
+        backgroundColor: colors.gold_dark,
+        borderRadius: 10,
+        padding: 5,
+        borderTopLeftRadius: 0,
+        marginTop: -50,
+        marginLeft: 150
     }
 })
