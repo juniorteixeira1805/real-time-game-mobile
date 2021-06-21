@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     padding: 50,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 40,
   },
   animation: {
   },

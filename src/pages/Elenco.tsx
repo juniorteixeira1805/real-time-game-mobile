@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView , TouchableOpacity, Image, Alert} from 'react-native';
+import { StyleSheet, Text, View, FlatList, SafeAreaView, ScrollView , TouchableOpacity, Image, Alert, Dimensions} from 'react-native';
 
 import colors from '../../styles/colors';
 import api from '../services/api'
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
 /* ------ ESTILIZAÇÃO DO CONTAINER -------- */
   container: {
     flex: 1,
-    marginTop: 40,
+    paddingTop: 40,
     backgroundColor: '#262626',
     justifyContent: 'flex-start'
   },
@@ -187,15 +187,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
-    width: 150,
-    height: 150,
+    height: Dimensions.get('window').width * 0.35,
+    width: Dimensions.get('window').width * 0.35,
     borderRadius: 100,
-    marginRight: 30
+    marginRight: 20
   },
   TextCard: {
-    fontSize: 22,
-    color: colors.gold_light,
-    fontFamily: fonts.text
+    fontSize: 18,
+    color: colors.gold,
+    fontFamily: fonts.heading
   },
 
   /* ------ ESTILIZAÇÃO DA TABELA -------- */

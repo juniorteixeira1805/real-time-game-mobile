@@ -73,7 +73,7 @@ const style = StyleSheet.create({
         flex: 1,
         backgroundColor: '#262626',
         paddingVertical: 50,
-        marginTop: 40,
+        paddingTop: 40,
     },
     wrapper: {
         flex: 1,
